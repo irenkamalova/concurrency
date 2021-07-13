@@ -24,13 +24,21 @@ public class SimpleCounterTest {
 
 
         Thread thread1 = new Thread(() -> {
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 10_000; i++) {
                 simpleCounter.get();
+                simpleCounter.decrease();
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 10_000; i++) {
+                simpleCounter.get();
+                simpleCounter.decrease();
             }
         });
 
         //
-        Thread thread2 = new ThreadImpl("Thread2");
+        //Thread thread2 = new ThreadImpl("Thread2");
         thread1.start();
         thread2.start();
 
@@ -41,6 +49,7 @@ public class SimpleCounterTest {
             e.printStackTrace();
         }
 
+        Assert.assertEquals(1, simpleCounter.get());
         System.out.println("Finished!");
     }
 
